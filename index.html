@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Шоола Осмоналиева | Sales & CS Portfolio</title>
+    <meta
+      property="og:title"
+      content="Шоола Осмоналиева | Strategic Sales & CS"
+    />
+    <meta
+      property="og:description"
+      content="Специалист в IT и EdTech. Выстраиваю процессы продаж и клиентский сервис."
+    />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap"
       rel="stylesheet"
@@ -19,7 +28,6 @@
         --bg: #050505;
         --text-main: #ffffff;
         --text-dim: #a0a0a0;
-        /* Новое благородное золото */
         --gold-deep: #8c6239;
         --gold-mid: #c5a059;
         --gold-light: #e2c792;
@@ -40,7 +48,7 @@
         min-height: 100vh;
       }
 
-      /* SIDEBAR - ФИКСАЦИЯ ПРАВОЙ СТОРОНЫ */
+      /* SIDEBAR - Фиксация правого края */
       .sidebar {
         position: fixed;
         width: var(--sidebar-width);
@@ -55,12 +63,10 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        /* Всегда прижимаем к правому краю */
-        object-position: 100% center;
+        object-position: 100% center !important;
         filter: grayscale(100%) brightness(0.7);
         transition: all 1.2s cubic-bezier(0.2, 1, 0.3, 1);
-        /* ИСПРАВЛЕНИЕ: Увеличение идет ВЛЕВО, правый край стоит на месте */
-        transform-origin: right center;
+        transform-origin: right center; /* Увеличение идет строго влево */
       }
 
       .sidebar:hover .sidebar-photo {
@@ -99,7 +105,7 @@
         background: linear-gradient(
           to right,
           var(--text-main) 0%,
-          var(--gold-mid) 60%,
+          var(--gold-mid) 50%,
           var(--gold-deep) 100%
         );
         -webkit-background-clip: text;
@@ -107,7 +113,32 @@
         letter-spacing: -1px;
       }
 
-      /* КНОПКИ С ЭФФЕКТОМ МЯГКОГО НАПЫЛЕНИЯ */
+      /* МЕТРИКИ - Исправлен TOP 1 */
+      .metrics {
+        display: flex;
+        gap: 40px;
+        margin-bottom: 60px;
+      }
+      .m-item {
+        border-top: 1px solid #1a1a1a;
+        padding-top: 25px; /* Увеличили отступ, чтобы верхушка не срезалась */
+        min-width: 130px;
+      }
+      .m-number {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--gold-light);
+        display: block;
+        line-height: 1.2; /* Добавили высоту строки для цифр */
+      }
+      .m-label {
+        font-size: 0.6rem;
+        color: #666;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      /* КНОПКИ */
       .btn {
         position: relative;
         padding: 16px 30px;
@@ -146,49 +177,10 @@
       .btn:hover {
         background: var(--gold-deep);
         color: #000;
-        border-color: var(--gold-mid);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
       }
 
-      /* Остальное */
-      .role-tag {
-        font-size: 0.7rem;
-        color: var(--gold-mid);
-        letter-spacing: 5px;
-        text-transform: uppercase;
-        margin-bottom: 20px;
-      }
-      .hero-desc {
-        font-size: 1.1rem;
-        color: var(--text-dim);
-        max-width: 500px;
-        margin-bottom: 50px;
-        font-weight: 300;
-      }
-      .metrics {
-        display: flex;
-        gap: 40px;
-        margin-bottom: 60px;
-      }
-      .m-item {
-        border-top: 1px solid #1a1a1a;
-        padding-top: 20px;
-        min-width: 130px;
-      }
-      .m-number {
-        font-size: 3rem;
-        font-weight: 700;
-        color: var(--gold-light);
-        display: block;
-        line-height: 1;
-      }
-      .m-label {
-        font-size: 0.6rem;
-        color: #666;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-      }
-
+      /* ТАБЫ */
       .tabs-nav {
         display: flex;
         gap: 30px;
@@ -217,13 +209,13 @@
       .tab-pane.active {
         display: block;
       }
+
       .job-list li {
         margin-bottom: 15px;
         padding-left: 25px;
         position: relative;
         color: #bbb;
         list-style: none;
-        font-size: 1rem;
       }
       .job-list li::before {
         content: "";
@@ -250,11 +242,26 @@
         color: var(--gold-mid);
         text-decoration: none;
         font-size: 0.9rem;
-        transition: 0.3s;
         opacity: 0.6;
+        transition: 0.3s;
       }
       .email-link:hover {
         opacity: 1;
+      }
+
+      .role-tag {
+        font-size: 0.7rem;
+        color: var(--gold-mid);
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+      .hero-desc {
+        font-size: 1.1rem;
+        color: var(--text-dim);
+        max-width: 500px;
+        margin-bottom: 50px;
+        font-weight: 300;
       }
 
       @keyframes fadeIn {
@@ -273,7 +280,8 @@
         .sidebar {
           position: relative;
           width: 100%;
-          height: 50vh;
+          height: 55vh;
+          border-right: none;
         }
         .main-content {
           padding: 40px 20px;
@@ -293,7 +301,7 @@
 
         <p class="hero-desc reveal">
           Специалист в IT и EdTech. Выстраиваю прозрачные процессы продаж и
-          создаю клиентский опыт.
+          создаю клиентский опыт, который возвращает пользователей.
         </p>
 
         <div class="metrics reveal">
@@ -328,7 +336,7 @@
           </div>
           <div id="s2" class="tab-pane">
             <ul class="job-list">
-              <li>URBAN: Проведение экспертных встреч.</li>
+              <li>URBAN: Проведение экспертных встреч и закрытие сделок.</li>
             </ul>
           </div>
           <div id="s3" class="tab-pane">
