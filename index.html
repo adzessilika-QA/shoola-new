@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Шоола Осмоналиева | Sales & CS Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg: #050505;
+        --text-main: #ffffff;
+        --text-dim: #a0a0a0;
+        --gold: #d4bc96;
+        --gold-light: #e5d5bc;
+        --sidebar-width: 32%;
+        --border-subtle: #1a1a1a;
+      }
+
+      body {
+        font-family: "Space Grotesk", sans-serif;
+        background-color: var(--bg);
+        color: var(--text-main);
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+
+      .wrapper {
+        display: grid;
+        grid-template-columns: var(--sidebar-width) 1fr;
+        min-height: 100vh;
+      }
+
+      /* SIDEBAR - ФОТО (премиальная фиксация) */
+      .sidebar {
+        position: fixed;
+        width: var(--sidebar-width);
+        height: 100vh;
+        background: #000;
+        z-index: 10;
+        overflow: hidden;
+        border-right: 1px solid #111;
+      }
+
+      .sidebar-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Меняем на cover, чтобы фото заполняло всю плоскость */
+        object-position: 70% center; /* Смещаем фокус вправо (локоть/плечо остаются в кадре) */
+        filter: grayscale(100%) brightness(0.8);
+        transition: all 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+        will-change: transform, filter;
+      }
+
+      .sidebar:hover .sidebar-photo {
+        filter: grayscale(0%) sepia(0.3) saturate(1.1) brightness(1.1);
+        transform: scale(1.05);
+      }
+
+      /* КОНТЕНТ */
+      .main-content {
+        grid-column: 2;
+        padding: 80px 5% 80px 6%;
+        max-width: 1000px;
+      }
+
+      .role-tag {
+        font-size: 0.75rem;
+        color: var(--gold);
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+        font-weight: 500;
+      }
+
+      h1 {
+        font-size: clamp(2.2rem, 6vw, 4.5rem);
+        font-weight: 700;
+        line-height: 0.9;
+        letter-spacing: -2px;
+        text-transform: uppercase;
+        margin-bottom: 25px;
+      }
+      h1 span {
+        display: block;
+        opacity: 0.6;
+        letter-spacing: -1px;
+      }
+
+      .hero-desc {
+        font-size: 1.1rem;
+        color: var(--text-dim);
+        max-width: 550px;
+        margin-bottom: 60px;
+        font-weight: 300;
+      }
+
+      /* МЕТРИКИ — аккуратнее */
+      .metrics {
+        display: flex;
+        gap: 50px;
+        margin-bottom: 70px;
+        flex-wrap: wrap;
+      }
+      .m-item {
+        border-top: 1px solid #222;
+        padding-top: 20px;
+        min-width: 130px;
+      }
+      .m-number {
+        font-size: 3.2rem;
+        font-weight: 700;
+        color: var(--gold-light);
+        display: block;
+        line-height: 1;
+        margin-bottom: 8px;
+        letter-spacing: -1px;
+      }
+      .m-label {
+        font-size: 0.7rem;
+        color: #ddd;
+        text-transform: uppercase;
+        letter-spacing: 2.5px;
+        font-weight: 500;
+        opacity: 0.9;
+      }
+
+      /* ТАБЫ */
+      .tabs-nav {
+        display: flex;
+        gap: 40px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+      .tab-btn {
+        background: none;
+        border: none;
+        color: #555;
+        padding: 15px 0 12px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        transition: 0.3s;
+        position: relative;
+        letter-spacing: 1px;
+      }
+      .tab-btn.active {
+        color: var(--gold);
+      }
+      .tab-btn.active::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--gold);
+      }
+
+      .tab-pane {
+        display: none;
+        animation: fadeIn 0.6s ease forwards;
+      }
+      .tab-pane.active {
+        display: block;
+      }
+
+      .job-list {
+        list-style: none;
+        padding: 0;
+      }
+      .job-list li {
+        font-size: 1.05rem;
+        color: #bbb;
+        margin-bottom: 16px;
+        padding-left: 28px;
+        position: relative;
+        line-height: 1.5;
+      }
+      .job-list li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 12px;
+        width: 16px;
+        height: 1.5px;
+        background: var(--gold);
+      }
+
+      /* ФУТЕР — кнопки на одной линии */
+      .footer {
+        margin-top: 80px;
+        padding-top: 50px;
+        border-top: 1px solid var(--border-subtle);
+      }
+      .btn-group {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 16px 36px;
+        text-decoration: none;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border: 1px solid var(--gold);
+        color: var(--gold);
+        transition: 0.3s;
+        background: transparent;
+        white-space: nowrap;
+      }
+      .btn:hover {
+        background: var(--gold);
+        color: #000;
+        box-shadow: 0 0 20px rgba(212, 188, 150, 0.2);
+      }
+
+      .email-link {
+        color: var(--gold);
+        text-decoration: none;
+        font-size: 1rem;
+        border-bottom: 1px solid transparent;
+        transition: 0.3s;
+        margin-left: 10px;
+        white-space: nowrap;
+      }
+      .email-link:hover {
+        border-bottom-color: var(--gold);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* АДАПТАЦИЯ */
+      @media (max-width: 1100px) {
+        .wrapper {
+          grid-template-columns: 100%;
+        }
+        .sidebar {
+          position: relative;
+          width: 100%;
+          height: 50vh;
+          border-right: none;
+          border-bottom: 1px solid #111;
+        }
+        .sidebar-photo {
+          object-position: center;
+          object-fit: cover;
+        }
+        .main-content {
+          padding: 50px 30px;
+        }
+        .btn-group {
+          gap: 20px;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .metrics {
+          gap: 30px;
+        }
+        .btn-group {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .btn,
+        .email-link {
+          width: 100%;
+          text-align: center;
+          margin-left: 0;
+        }
+        .email-link {
+          margin-top: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <aside class="sidebar">
+        <img src="photo.jpg" alt="Шоола Осмоналиева" class="sidebar-photo" />
+      </aside>
+
+      <main class="main-content">
+        <div class="role-tag">Strategic Sales & CS Professional</div>
+        <h1>ШООЛА<span>ОСМОНАЛИЕВА</span></h1>
+
+        <p class="hero-desc">
+          Специалист в IT и EdTech. Выстраиваю прозрачные процессы продаж и
+          создаю клиентский опыт, который возвращает пользователей.
+        </p>
+
+        <div class="metrics">
+          <div class="m-item">
+            <span class="m-number">80%</span
+            ><span class="m-label">Retention</span>
+          </div>
+          <div class="m-item">
+            <span class="m-number">TOP 1</span
+            ><span class="m-label">Performance</span>
+          </div>
+          <div class="m-item">
+            <span class="m-number">300</span
+            ><span class="m-label">Daily Reach</span>
+          </div>
+        </div>
+
+        <nav class="tabs-nav">
+          <button class="tab-btn active" onclick="openTab(event, 's1')">
+            Sales
+          </button>
+          <button class="tab-btn" onclick="openTab(event, 's2')">
+            Account
+          </button>
+          <button class="tab-btn" onclick="openTab(event, 's3')">
+            Success
+          </button>
+        </nav>
+
+        <div id="s1" class="tab-pane active">
+          <ul class="job-list">
+            <li>KATA Academy: Управление пайплайном в CRM (Kanban).</li>
+            <li>Консультирование по образовательным траекториям.</li>
+            <li>Выполнение планов по качеству и объему сделок.</li>
+          </ul>
+        </div>
+        <div id="s2" class="tab-pane">
+          <ul class="job-list">
+            <li>URBAN: Проведение экспертных встреч и закрытие сделок.</li>
+            <li>Разработка внутренней базы скриптов и методологии.</li>
+          </ul>
+        </div>
+        <div id="s3" class="tab-pane">
+          <ul class="job-list">
+            <li>UKIDS: Достижение 80% Retention через онбординг.</li>
+            <li>Звание лучшего сотрудника три месяца подряд.</li>
+          </ul>
+        </div>
+
+        <footer class="footer">
+          <div class="btn-group">
+            <a href="https://t.me/ShoolaOsm" class="btn" target="_blank"
+              >Telegram</a
+            >
+            <a href="cv.pdf" class="btn" download>Resume PDF</a>
+            <a href="mailto:osmonalievashoola@gmail.com" class="email-link"
+              >osmonalievashoola@gmail.com</a
+            >
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      function openTab(evt, tabId) {
+        const panes = document.getElementsByClassName("tab-pane");
+        const btns = document.getElementsByClassName("tab-btn");
+        for (let p of panes) p.classList.remove("active");
+        for (let b of btns) b.classList.remove("active");
+        document.getElementById(tabId).classList.add("active");
+        evt.currentTarget.classList.add("active");
+      }
+    </script>
+  </body>
+</html>
