@@ -14,14 +14,16 @@
         padding: 0;
         box-sizing: border-box;
       }
+
       :root {
         --bg: #050505;
         --text-main: #ffffff;
         --text-dim: #a0a0a0;
-        --gold: #d4bc96;
-        --gold-light: #e5d5bc;
-        --sidebar-width: 32%;
-        --border-subtle: #1a1a1a;
+        /* Новое благородное золото */
+        --gold-deep: #8c6239;
+        --gold-mid: #c5a059;
+        --gold-light: #e2c792;
+        --sidebar-width: 35%;
       }
 
       body {
@@ -38,7 +40,7 @@
         min-height: 100vh;
       }
 
-      /* SIDEBAR - ФОТО (премиальная фиксация) */
+      /* SIDEBAR - ФИКСАЦИЯ ПРАВОЙ СТОРОНЫ */
       .sidebar {
         position: fixed;
         width: var(--sidebar-width);
@@ -52,208 +54,218 @@
       .sidebar-photo {
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Меняем на cover, чтобы фото заполняло всю плоскость */
-        object-position: 70% center; /* Смещаем фокус вправо (локоть/плечо остаются в кадре) */
-        filter: grayscale(100%) brightness(0.8);
+        object-fit: cover;
+        /* Всегда прижимаем к правому краю */
+        object-position: 100% center;
+        filter: grayscale(100%) brightness(0.7);
         transition: all 1.2s cubic-bezier(0.2, 1, 0.3, 1);
-        will-change: transform, filter;
+        /* ИСПРАВЛЕНИЕ: Увеличение идет ВЛЕВО, правый край стоит на месте */
+        transform-origin: right center;
       }
 
       .sidebar:hover .sidebar-photo {
-        filter: grayscale(0%) sepia(0.3) saturate(1.1) brightness(1.1);
-        transform: scale(1.05);
+        filter: grayscale(0%) brightness(0.9);
+        transform: scale(1.1);
       }
 
       /* КОНТЕНТ */
       .main-content {
         grid-column: 2;
-        padding: 80px 5% 80px 6%;
-        max-width: 1000px;
+        padding: 80px 5% 80px 8%;
+        max-width: 1200px;
       }
 
-      .role-tag {
-        font-size: 0.75rem;
-        color: var(--gold);
-        letter-spacing: 6px;
-        text-transform: uppercase;
-        margin-bottom: 25px;
-        font-weight: 500;
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+      }
+      .active-reveal {
+        opacity: 1;
+        transform: translateY(0);
       }
 
       h1 {
-        font-size: clamp(2.2rem, 6vw, 4.5rem);
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
         font-weight: 700;
-        line-height: 0.9;
-        letter-spacing: -2px;
+        line-height: 0.85;
         text-transform: uppercase;
-        margin-bottom: 25px;
+        margin-bottom: 30px;
       }
+
+      /* Благородная золотая фамилия */
       h1 span {
         display: block;
-        opacity: 0.6;
+        background: linear-gradient(
+          to right,
+          var(--text-main) 0%,
+          var(--gold-mid) 60%,
+          var(--gold-deep) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         letter-spacing: -1px;
       }
 
+      /* КНОПКИ С ЭФФЕКТОМ МЯГКОГО НАПЫЛЕНИЯ */
+      .btn {
+        position: relative;
+        padding: 16px 30px;
+        border: 1px solid var(--gold-deep);
+        color: var(--gold-mid);
+        text-decoration: none;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 2px;
+        overflow: hidden;
+        transition: 0.4s ease;
+        background: transparent;
+        display: inline-block;
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(255, 255, 255, 0.15),
+          transparent
+        );
+        transition: 0.6s;
+      }
+
+      .btn:hover::before {
+        left: 100%;
+      }
+      .btn:hover {
+        background: var(--gold-deep);
+        color: #000;
+        border-color: var(--gold-mid);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Остальное */
+      .role-tag {
+        font-size: 0.7rem;
+        color: var(--gold-mid);
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
       .hero-desc {
         font-size: 1.1rem;
         color: var(--text-dim);
-        max-width: 550px;
-        margin-bottom: 60px;
+        max-width: 500px;
+        margin-bottom: 50px;
         font-weight: 300;
       }
-
-      /* МЕТРИКИ — аккуратнее */
       .metrics {
         display: flex;
-        gap: 50px;
-        margin-bottom: 70px;
-        flex-wrap: wrap;
+        gap: 40px;
+        margin-bottom: 60px;
       }
       .m-item {
-        border-top: 1px solid #222;
+        border-top: 1px solid #1a1a1a;
         padding-top: 20px;
         min-width: 130px;
       }
       .m-number {
-        font-size: 3.2rem;
+        font-size: 3rem;
         font-weight: 700;
         color: var(--gold-light);
         display: block;
         line-height: 1;
-        margin-bottom: 8px;
-        letter-spacing: -1px;
       }
       .m-label {
-        font-size: 0.7rem;
-        color: #ddd;
+        font-size: 0.6rem;
+        color: #666;
+        letter-spacing: 2px;
         text-transform: uppercase;
-        letter-spacing: 2.5px;
-        font-weight: 500;
-        opacity: 0.9;
       }
 
-      /* ТАБЫ */
       .tabs-nav {
         display: flex;
-        gap: 40px;
-        margin-bottom: 40px;
-        border-bottom: 1px solid var(--border-subtle);
+        gap: 30px;
+        margin-bottom: 30px;
+        border-bottom: 1px solid #111;
       }
       .tab-btn {
         background: none;
         border: none;
-        color: #555;
-        padding: 15px 0 12px;
+        color: #444;
+        padding-bottom: 12px;
         cursor: pointer;
         font-family: inherit;
-        font-size: 0.85rem;
-        text-transform: uppercase;
         font-weight: 700;
-        transition: 0.3s;
-        position: relative;
-        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-size: 0.8rem;
       }
       .tab-btn.active {
-        color: var(--gold);
+        color: var(--gold-mid);
+        border-bottom: 2px solid var(--gold-mid);
       }
-      .tab-btn.active::after {
-        content: "";
-        position: absolute;
-        bottom: -1px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: var(--gold);
-      }
-
       .tab-pane {
         display: none;
-        animation: fadeIn 0.6s ease forwards;
+        animation: fadeIn 0.6s ease;
       }
       .tab-pane.active {
         display: block;
       }
-
-      .job-list {
-        list-style: none;
-        padding: 0;
-      }
       .job-list li {
-        font-size: 1.05rem;
-        color: #bbb;
-        margin-bottom: 16px;
-        padding-left: 28px;
+        margin-bottom: 15px;
+        padding-left: 25px;
         position: relative;
-        line-height: 1.5;
+        color: #bbb;
+        list-style: none;
+        font-size: 1rem;
       }
       .job-list li::before {
         content: "";
         position: absolute;
         left: 0;
         top: 12px;
-        width: 16px;
-        height: 1.5px;
-        background: var(--gold);
+        width: 12px;
+        height: 1px;
+        background: var(--gold-deep);
       }
 
-      /* ФУТЕР — кнопки на одной линии */
       .footer {
         margin-top: 80px;
+        border-top: 1px solid #111;
         padding-top: 50px;
-        border-top: 1px solid var(--border-subtle);
       }
       .btn-group {
         display: flex;
-        gap: 25px;
+        gap: 20px;
         align-items: center;
         flex-wrap: wrap;
       }
-
-      .btn {
-        display: inline-block;
-        padding: 16px 36px;
-        text-decoration: none;
-        font-size: 0.8rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        border: 1px solid var(--gold);
-        color: var(--gold);
-        transition: 0.3s;
-        background: transparent;
-        white-space: nowrap;
-      }
-      .btn:hover {
-        background: var(--gold);
-        color: #000;
-        box-shadow: 0 0 20px rgba(212, 188, 150, 0.2);
-      }
-
       .email-link {
-        color: var(--gold);
+        color: var(--gold-mid);
         text-decoration: none;
-        font-size: 1rem;
-        border-bottom: 1px solid transparent;
+        font-size: 0.9rem;
         transition: 0.3s;
-        margin-left: 10px;
-        white-space: nowrap;
+        opacity: 0.6;
       }
       .email-link:hover {
-        border-bottom-color: var(--gold);
+        opacity: 1;
       }
 
       @keyframes fadeIn {
         from {
           opacity: 0;
-          transform: translateY(8px);
         }
         to {
           opacity: 1;
-          transform: translateY(0);
         }
       }
 
-      /* АДАПТАЦИЯ */
       @media (max-width: 1100px) {
         .wrapper {
           grid-template-columns: 100%;
@@ -262,37 +274,9 @@
           position: relative;
           width: 100%;
           height: 50vh;
-          border-right: none;
-          border-bottom: 1px solid #111;
-        }
-        .sidebar-photo {
-          object-position: center;
-          object-fit: cover;
         }
         .main-content {
-          padding: 50px 30px;
-        }
-        .btn-group {
-          gap: 20px;
-        }
-      }
-
-      @media (max-width: 700px) {
-        .metrics {
-          gap: 30px;
-        }
-        .btn-group {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        .btn,
-        .email-link {
-          width: 100%;
-          text-align: center;
-          margin-left: 0;
-        }
-        .email-link {
-          margin-top: 10px;
+          padding: 40px 20px;
         }
       }
     </style>
@@ -304,62 +288,57 @@
       </aside>
 
       <main class="main-content">
-        <div class="role-tag">Strategic Sales & CS Professional</div>
-        <h1>ШООЛА<span>ОСМОНАЛИЕВА</span></h1>
+        <div class="role-tag reveal">Strategic Sales & CS Professional</div>
+        <h1 class="reveal">ШООЛА<span>ОСМОНАЛИЕВА</span></h1>
 
-        <p class="hero-desc">
+        <p class="hero-desc reveal">
           Специалист в IT и EdTech. Выстраиваю прозрачные процессы продаж и
-          создаю клиентский опыт, который возвращает пользователей.
+          создаю клиентский опыт.
         </p>
 
-        <div class="metrics">
+        <div class="metrics reveal">
           <div class="m-item">
-            <span class="m-number">80%</span
-            ><span class="m-label">Retention</span>
+            <span class="m-number">80%</span>
+            <span class="m-label">Retention</span>
           </div>
           <div class="m-item">
-            <span class="m-number">TOP 1</span
-            ><span class="m-label">Performance</span>
-          </div>
-          <div class="m-item">
-            <span class="m-number">300</span
-            ><span class="m-label">Daily Reach</span>
+            <span class="m-number">TOP 1</span>
+            <span class="m-label">Performance</span>
           </div>
         </div>
 
-        <nav class="tabs-nav">
-          <button class="tab-btn active" onclick="openTab(event, 's1')">
-            Sales
-          </button>
-          <button class="tab-btn" onclick="openTab(event, 's2')">
-            Account
-          </button>
-          <button class="tab-btn" onclick="openTab(event, 's3')">
-            Success
-          </button>
-        </nav>
+        <div class="reveal">
+          <nav class="tabs-nav">
+            <button class="tab-btn active" onclick="openTab(event, 's1')">
+              Sales
+            </button>
+            <button class="tab-btn" onclick="openTab(event, 's2')">
+              Account
+            </button>
+            <button class="tab-btn" onclick="openTab(event, 's3')">
+              Success
+            </button>
+          </nav>
 
-        <div id="s1" class="tab-pane active">
-          <ul class="job-list">
-            <li>KATA Academy: Управление пайплайном в CRM (Kanban).</li>
-            <li>Консультирование по образовательным траекториям.</li>
-            <li>Выполнение планов по качеству и объему сделок.</li>
-          </ul>
-        </div>
-        <div id="s2" class="tab-pane">
-          <ul class="job-list">
-            <li>URBAN: Проведение экспертных встреч и закрытие сделок.</li>
-            <li>Разработка внутренней базы скриптов и методологии.</li>
-          </ul>
-        </div>
-        <div id="s3" class="tab-pane">
-          <ul class="job-list">
-            <li>UKIDS: Достижение 80% Retention через онбординг.</li>
-            <li>Звание лучшего сотрудника три месяца подряд.</li>
-          </ul>
+          <div id="s1" class="tab-pane active">
+            <ul class="job-list">
+              <li>KATA Academy: Управление пайплайном в CRM.</li>
+              <li>Выполнение планов по качеству и объему сделок.</li>
+            </ul>
+          </div>
+          <div id="s2" class="tab-pane">
+            <ul class="job-list">
+              <li>URBAN: Проведение экспертных встреч.</li>
+            </ul>
+          </div>
+          <div id="s3" class="tab-pane">
+            <ul class="job-list">
+              <li>UKIDS: Достижение 80% Retention через онбординг.</li>
+            </ul>
+          </div>
         </div>
 
-        <footer class="footer">
+        <footer class="footer reveal">
           <div class="btn-group">
             <a href="https://t.me/ShoolaOsm" class="btn" target="_blank"
               >Telegram</a
@@ -382,6 +361,13 @@
         document.getElementById(tabId).classList.add("active");
         evt.currentTarget.classList.add("active");
       }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const reveals = document.querySelectorAll(".reveal");
+        reveals.forEach((el, i) => {
+          setTimeout(() => el.classList.add("active-reveal"), 150 * i);
+        });
+      });
     </script>
   </body>
 </html>
